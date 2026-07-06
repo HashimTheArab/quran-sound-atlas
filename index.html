@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A Sound Atlas of the Qur'an</title>
+<meta name="description" content="A full-corpus structural study of the Qur'an: rhyme signatures for all 114 surahs, 27 adjudicated sound-break pivots, complete refrain and formula censuses, and honestly reported negative results.">
+<meta property="og:title" content="A Sound Atlas of the Qur'an">
+<meta property="og:description" content="Every one of 6,236 verses read and measured. Central finding: when this text changes its sound, it is changing its subject — 27 of 27 machine-flagged sound-breaks landed on structural seams.">
+</head>
+<body>
+<style>
+:root{
+  --ground:#faf7f0; --panel:#f2eddf; --ink:#1d2433; --muted:#68635a;
+  --lapis:#23499e; --gold:#96731c; --line:#ddd5c2;
+  --pivot-bg:#e3ecdc; --pivot-fg:#3a5c2e; --partial-bg:#f0e6cc; --partial-fg:#7a5c14;
+  --neg-bg:#ece4e0; --neg-fg:#7c4a3a;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --ground:#101830; --panel:#182242; --ink:#e9e5d8; --muted:#a9a696;
+    --lapis:#8aa8e8; --gold:#c9a84c; --line:#2b375e;
+    --pivot-bg:#22391f; --pivot-fg:#a8cf96; --partial-bg:#3d3213; --partial-fg:#dfc06a;
+    --neg-bg:#3a2620; --neg-fg:#d9a08c;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#101830; --panel:#182242; --ink:#e9e5d8; --muted:#a9a696;
+  --lapis:#8aa8e8; --gold:#c9a84c; --line:#2b375e;
+  --pivot-bg:#22391f; --pivot-fg:#a8cf96; --partial-bg:#3d3213; --partial-fg:#dfc06a;
+  --neg-bg:#3a2620; --neg-fg:#d9a08c;
+}
+:root[data-theme="light"]{
+  --ground:#faf7f0; --panel:#f2eddf; --ink:#1d2433; --muted:#68635a;
+  --lapis:#23499e; --gold:#96731c; --line:#ddd5c2;
+  --pivot-bg:#e3ecdc; --pivot-fg:#3a5c2e; --partial-bg:#f0e6cc; --partial-fg:#7a5c14;
+  --neg-bg:#ece4e0; --neg-fg:#7c4a3a;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--ground); color:var(--ink);
+  font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  font-size:17px; line-height:1.65;
+}
+.wrap{max-width:76ch; margin:0 auto; padding:3.5rem 1.4rem 5rem}
+header{border-bottom:3px double var(--gold); padding-bottom:2rem; margin-bottom:2.5rem}
+.eyebrow{font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.72rem; letter-spacing:.18em; text-transform:uppercase; color:var(--gold); margin:0 0 .8rem}
+h1{font-size:2.3rem; line-height:1.15; margin:0 0 .8rem; font-weight:600; text-wrap:balance; color:var(--ink)}
+.standfirst{font-size:1.06rem; color:var(--muted); max-width:62ch; margin:0}
+h2{font-size:1.35rem; margin:3rem 0 .4rem; font-weight:600; color:var(--lapis); text-wrap:balance}
+h2 .no{color:var(--gold); font-family:ui-monospace,Menlo,monospace; font-size:1rem; margin-right:.5rem}
+h3{font-size:1.02rem; margin:1.6rem 0 .3rem; font-weight:600}
+p{margin:.6rem 0 1rem}
+.sub{color:var(--muted); font-size:.92rem; margin-top:0}
+a{color:var(--lapis)}
+.ar{
+  font-family:"Geeza Pro","Al Bayan","Traditional Arabic",serif;
+  font-size:1.35em; line-height:2; direction:rtl; unicode-bidi:isolate;
+}
+.specimen{
+  background:var(--panel); border:1px solid var(--line); border-radius:2px;
+  padding:1.2rem 1.4rem; margin:1.4rem 0;
+}
+.specimen .ref{font-family:ui-monospace,Menlo,monospace; font-size:.75rem; color:var(--gold); letter-spacing:.08em; text-transform:uppercase}
+.specimen p{margin:.4rem 0}
+.tablebox{overflow-x:auto; border:1px solid var(--line); border-radius:2px; margin:1.2rem 0}
+table{border-collapse:collapse; width:100%; font-size:.85rem; min-width:640px}
+th{
+  text-align:left; font-family:ui-monospace,Menlo,monospace; font-size:.68rem;
+  letter-spacing:.12em; text-transform:uppercase; color:var(--muted);
+  padding:.55rem .8rem; border-bottom:2px solid var(--line); background:var(--panel);
+}
+td{padding:.5rem .8rem; border-bottom:1px solid var(--line); vertical-align:top}
+tr:last-child td{border-bottom:none}
+td.ref, td.num{font-family:ui-monospace,Menlo,monospace; font-variant-numeric:tabular-nums; font-size:.8rem; white-space:nowrap}
+td.num{text-align:right}
+.chip{
+  display:inline-block; font-family:ui-monospace,Menlo,monospace; font-size:.66rem;
+  letter-spacing:.09em; padding:.1rem .5rem; border-radius:999px; white-space:nowrap;
+}
+.chip.pivot{background:var(--pivot-bg); color:var(--pivot-fg)}
+.chip.partial{background:var(--partial-bg); color:var(--partial-fg)}
+.chip.neg{background:var(--neg-bg); color:var(--neg-fg)}
+.meter{display:inline-block; width:110px; height:8px; background:var(--line); border-radius:4px; vertical-align:middle}
+.meter i{display:block; height:100%; background:var(--lapis); border-radius:4px}
+.statrow{display:flex; flex-wrap:wrap; gap:1rem; margin:1.4rem 0}
+.stat{flex:1 1 130px; background:var(--panel); border:1px solid var(--line); border-radius:2px; padding:.8rem 1rem}
+.stat b{display:block; font-size:1.7rem; font-weight:600; font-variant-numeric:tabular-nums; color:var(--lapis)}
+.stat span{font-size:.78rem; color:var(--muted); letter-spacing:.04em}
+.mech{margin:1rem 0 1rem 0; padding-left:1rem; border-left:3px solid var(--gold)}
+.mech b{color:var(--ink)}
+.caveat{border-left:3px solid var(--neg-fg); padding:.2rem 0 .2rem 1rem; margin:1rem 0; color:var(--muted); font-size:.95rem}
+footer{margin-top:4rem; padding-top:1.2rem; border-top:1px solid var(--line); font-size:.8rem; color:var(--muted); font-family:ui-monospace,Menlo,monospace}
+</style>
+
+<div class="wrap">
+<header>
+  <p class="eyebrow">Structural Atlas &middot; Full-Corpus Study</p>
+  <h1>A Sound Atlas of the Qur&rsquo;an</h1>
+  <p class="standfirst">Every one of the 6,236 verses of the Tanzil text was read and measured: per-surah rhyme signatures, every sustained break in them adjudicated in context, a complete census of refrains and cross-surah formulas, and one honest negative result. The central finding: <em>when this text changes its sound, it is changing its subject</em> &mdash; 27 of 27 machine-flagged sound-breaks landed on real structural seams, 21 of them exactly.</p>
+</header>
+
+<div class="statrow">
+  <div class="stat"><b>6,236</b><span>verses read &amp; measured</span></div>
+  <div class="stat"><b>82</b><span>sustained rhyme-breaks detected</span></div>
+  <div class="stat"><b>21 / 6 / 0</b><span>pivot / partial / miss, of 27 judged</span></div>
+  <div class="stat"><b>275</b><span>verses verbatim-repeated elsewhere</span></div>
+</div>
+
+<h2><span class="no">I</span>Rhyme signatures: each surah keeps its own sound</h2>
+<p>The verse-final word was extracted for all 6,236 verses and reduced to a pausal rhyme key. Most surahs hold one acoustic signature with remarkable discipline &mdash; Surah 91 (ash-Shams) ends all fifteen of its verses on <i>-āhā</i>; Surah 55 (ar-Rahman) holds <i>-ān</i> across 66 of 78 verses; Surah 23 sustains the high-vowel-plus-nasal family for 97% of its 118 verses. The signature is a surah-level structural unit, not an incidental ornament.</p>
+<div class="tablebox"><table>
+<tr><th>Surah</th><th>Verses</th><th>Dominant sound</th><th>Discipline</th><th></th></tr>
+<tr><td class="ref">91 ash-Shams</td><td class="num">15</td><td><i>-āhā</i></td><td class="num">100%</td><td><span class="meter"><i style="width:100%"></i></span></td></tr>
+<tr><td class="ref">23 al-Mu&rsquo;minun</td><td class="num">118</td><td><i>-ūn / -īn</i></td><td class="num">97%</td><td><span class="meter"><i style="width:97%"></i></span></td></tr>
+<tr><td class="ref">21 al-Anbiya</td><td class="num">112</td><td><i>-ūn / -īn</i></td><td class="num">95%</td><td><span class="meter"><i style="width:95%"></i></span></td></tr>
+<tr><td class="ref">47 Muhammad</td><td class="num">38</td><td><i>-hum / -kum</i></td><td class="num">95%</td><td><span class="meter"><i style="width:95%"></i></span></td></tr>
+<tr><td class="ref">55 ar-Rahman</td><td class="num">78</td><td><i>-ān</i></td><td class="num">94%</td><td><span class="meter"><i style="width:94%"></i></span></td></tr>
+<tr><td class="ref">76 al-Insan</td><td class="num">31</td><td><i>-rā / -lā</i></td><td class="num">94%</td><td><span class="meter"><i style="width:94%"></i></span></td></tr>
+<tr><td class="ref">7 al-A&rsquo;raf</td><td class="num">206</td><td><i>-ūn / -īn</i></td><td class="num">93%</td><td><span class="meter"><i style="width:93%"></i></span></td></tr>
+<tr><td class="ref">28 al-Qasas</td><td class="num">88</td><td><i>-ūn / -īn</i></td><td class="num">92%</td><td><span class="meter"><i style="width:92%"></i></span></td></tr>
+</table></div>
+<p class="sub">Top of the discipline table; the pattern holds broadly. Long Medinan surahs run lower because legal prose relaxes the rhyme.</p>
+
+<h2><span class="no">II</span>The break test: does a sound-shift mark a content pivot?</h2>
+<p>The hypothesis came from a firsthand reading observation: in Surah Maryam, the surah&rsquo;s gentle <i>-iyyā</i> rhyme turns to harsh doubled consonants exactly at the denunciation of &ldquo;the Most Merciful has taken a son.&rdquo; Generalized and tested: a detector flagged every run of two or more consecutive verses that abandon their surah&rsquo;s dominant rhyme family (82 blocks corpus-wide, after merging acoustically equivalent families like <i>-ūn/-īn</i>). The 27 strongest cross-family blocks were then read in context and adjudicated, with skepticism instructed and &ldquo;no correlation&rdquo; a valid verdict.</p>
+<p><b>Result: 21 clear pivots, 6 partials, 0 misses.</b> Not one block shifted its sound over inert content.</p>
+
+<div class="specimen">
+  <p class="ref">Specimen &middot; Surah 19 (Maryam) &mdash; the original finding, sharpened</p>
+  <p>The detector found <em>two</em> breaks, not one. At 19:34&ndash;40 the &lsquo;Isa narrative halts for a doctrinal verdict (&ldquo;it is not for God to take a son&rdquo;) and the rhyme snaps out of <i>-iyyā</i>; the instant narration resumes with Ibrahim at 19:41, the rhyme snaps back. The famous harsh turn is the second break &mdash; and it begins at 19:75, earlier than eyeball reading suggested, running to the end:</p>
+  <p class="ar">وَقَالُوا اتَّخَذَ الرَّحْمَـٰنُ وَلَدًا &#x25AA; لَّقَدْ جِئْتُمْ شَيْئًا إِدًّا &#x25AA; تَكَادُ السَّمَاوَاتُ يَتَفَطَّرْنَ مِنْهُ</p>
+  <p class="sub">&ldquo;They say the Most Merciful has taken a son &mdash; you have uttered a monstrous thing; the heavens nearly split apart from it&rdquo; (19:88&ndash;90). The soft <i>-iyyā</i> becomes <i>iddā / haddā / ḍiddā</i> &mdash; the phonetics turn violent with the content, then soften for the verse about love (19:96, <i>wuddā</i>).</p>
+</div>
+
+<div class="specimen">
+  <p class="ref">Specimen &middot; Surah 47 &mdash; the rhyme is the addressee</p>
+  <p>This surah rhymes on pronoun suffixes. Verses describing the hypocrites end in <i>-hum</i> (&ldquo;them&rdquo;); when the text turns to exhort the believers, the endings turn to <i>-kum</i> (&ldquo;you&rdquo;) &mdash; at 47:35&ndash;38 the change of addressee is literally audible as the change of rhyme.</p>
+</div>
+
+<div class="specimen">
+  <p class="ref">Specimen &middot; Surah 82 &mdash; cosmos to whisper</p>
+  <p>Five verses of cosmic collapse in cascading feminine perfects (<i>infaṭarat, intatharat, fujjirat, buʿthirat</i>) &mdash; then the sound pivots to <i>-ak</i> at the exact verse the camera drops from the universe to one person: <span class="ar" style="font-size:1.15em">يَا أَيُّهَا الْإِنسَانُ مَا غَرَّكَ بِرَبِّكَ الْكَرِيمِ</span> &ldquo;O man, what deluded you about your generous Lord &mdash; who created you, proportioned you, balanced you?&rdquo;</p>
+</div>
+
+<h3>All 27 adjudicated blocks</h3>
+<div class="tablebox"><table>
+<tr><th>Block</th><th>Sound movement</th><th>Verdict</th><th>What the content does there</th></tr>
+<tr><td class="ref">2:106&ndash;110</td><td><i>-ūn</i> &rarr; <i>-īr/-īl</i> &rarr; <i>-ūn</i></td><td><span class="chip pivot">pivot</span></td><td>Self-contained doctrinal unit (abrogation, divine sovereignty) framed by divine-power epithets</td></tr>
+<tr><td class="ref">2:204&ndash;207</td><td><i>-ūn</i> &rarr; <i>-ām/-ād</i> &rarr; <i>-īm</i></td><td><span class="chip pivot">pivot</span></td><td>Hajj law breaks into a character diptych: the smooth-tongued corrupter vs. the self-sacrificer</td></tr>
+<tr><td class="ref">2:284&ndash;285</td><td><i>-ūn</i> &rarr; <i>-īr</i> &rarr; <i>-īn</i></td><td><span class="chip pivot">pivot</span></td><td>Debt legislation ends; the closing credo of the longest surah begins exactly at the shift</td></tr>
+<tr><td class="ref">3:7&ndash;17</td><td><i>-īm</i> &rarr; <i>-āb/-ād/-ār</i> &times;11</td><td><span class="chip partial">partial</span></td><td>Block exactly brackets a movement (hermeneutics verse + prayer + portraits) but content inside is mixed</td></tr>
+<tr><td class="ref">3:26&ndash;30</td><td><i>-ūn</i> &rarr; <i>-īr/-āb</i> &rarr; <i>-īm</i></td><td><span class="chip pivot">pivot</span></td><td>Polemic yields to the dictated doxology &ldquo;Say: O God, Owner of sovereignty&hellip;&rdquo;</td></tr>
+<tr><td class="ref">3:189&ndash;199</td><td><i>-ūn</i> &rarr; ā+r/b/d &times;11 &rarr; <i>-ūn</i></td><td><span class="chip pivot">pivot</span></td><td>The surah&rsquo;s contemplative coda &mdash; night-prayer sequence and God&rsquo;s answer &mdash; enters and exits with the rhyme</td></tr>
+<tr><td class="ref">8:11&ndash;16</td><td><i>-īm</i> &rarr; <i>-ām/-ār</i> &rarr; <i>-īm</i></td><td><span class="chip partial">partial</span></td><td>ā-endings carry the Badr combat action; battle recall already begins two verses earlier</td></tr>
+<tr><td class="ref">19:34&ndash;40</td><td><i>-iyyā</i> &rarr; nasal &rarr; <i>-iyyā</i></td><td><span class="chip pivot">pivot</span></td><td>Narrative halts for the &lsquo;Isa doctrinal verdict; rhyme returns the instant story resumes</td></tr>
+<tr><td class="ref">19:75&ndash;98</td><td><i>-iyyā</i> &rarr; <i>CC-ā</i> to end</td><td><span class="chip pivot">pivot</span></td><td>Final confrontational movement climaxing in the son-denunciation; harsh register begins at v.75</td></tr>
+<tr><td class="ref">24:36&ndash;40</td><td><i>-īm</i> &rarr; <i>-āl/-ār/-ūr</i></td><td><span class="chip pivot">pivot</span></td><td>The Light Verse parable-complex &mdash; lamp, mirage, layered sea-darkness &mdash; inside a legislative surah</td></tr>
+<tr><td class="ref">24:42&ndash;45</td><td>nasal &rarr; <i>-īr/-ār</i> &rarr; <i>-īm</i></td><td><span class="chip pivot">pivot</span></td><td>Cosmic-signs hymn closing the lyric interlude before hypocrite-legislation resumes</td></tr>
+<tr><td class="ref">35:39&ndash;45</td><td><i>-ūr/-īr</i> &rarr; <i>-ūrā/-īlā</i></td><td><span class="chip partial">partial</span></td><td>Closing peroration, but the shift is partly accusative grammar rather than pure rhetoric</td></tr>
+<tr><td class="ref">37:1&ndash;11</td><td><i>-ffā/-rā</i>, consonant-final &rarr; <i>-ūn</i></td><td><span class="chip pivot">pivot</span></td><td>Oath-triplet and cosmic prologue in rare rhymes; <i>-ūn</i> lands where address turns to deniers</td></tr>
+<tr><td class="ref">39:3&ndash;5</td><td><i>-ūn</i> &rarr; <i>-ār</i> &rarr; <i>-ūn</i></td><td><span class="chip pivot">pivot</span></td><td>Polemic climax sealed with intensive <i>faʿʿāl</i> divine names (kaffār, qahhār, ghaffār)</td></tr>
+<tr><td class="ref">39:17&ndash;21</td><td><i>-ūn</i> &rarr; <i>-āb/-ād</i> &rarr; <i>-īn</i></td><td><span class="chip partial">partial</span></td><td>Good-news panel for &ldquo;those of understanding&rdquo;; boundary fuzzy at the far edge</td></tr>
+<tr><td class="ref">41:44&ndash;54</td><td><i>-ūn</i> &rarr; <i>-īd/-īb/-īṭ</i></td><td><span class="chip pivot">pivot</span></td><td>Surah coda: revelation self-defense and the horizons verse in heightened singular adjectives</td></tr>
+<tr><td class="ref">47:35&ndash;38</td><td><i>-hum</i> &rarr; <i>-kum</i></td><td><span class="chip pivot">pivot</span></td><td>Rhyme is the pronoun: describing them &rarr; addressing you; the addressee change is audible</td></tr>
+<tr><td class="ref">51:1&ndash;9</td><td>oath <i>-an/-iq/-iʿ</i> &rarr; <i>-ūn</i></td><td><span class="chip pivot">pivot</span></td><td>Oath-prologue with its own sound snaps to body rhyme where the denunciation begins</td></tr>
+<tr><td class="ref">52:1&ndash;10</td><td>oath <i>-ūr/-iʿ/-rā</i> &rarr; <i>-ūn</i></td><td><span class="chip pivot">pivot</span></td><td>Same architecture: oaths hand off to &ldquo;woe that Day to the deniers&rdquo;</td></tr>
+<tr><td class="ref">56:1&ndash;9</td><td><i>rajjan/bassan</i> &rarr; <i>-ūn</i></td><td><span class="chip pivot">pivot</span></td><td>Onomatopoeic quake annunciation &rarr; triage of humanity into three classes at the snap</td></tr>
+<tr><td class="ref">56:28&ndash;37</td><td><i>-ūn</i> &rarr; <i>-ūd/-ūb</i> &rarr; <i>-īn</i></td><td><span class="chip pivot">pivot</span></td><td>Garden-inventory tableau opens right after the panel header &ldquo;companions of the right&rdquo;</td></tr>
+<tr><td class="ref">67:22&ndash;30</td><td><i>-īr/-ūr</i> &rarr; <i>-ūn/-īm</i></td><td><span class="chip pivot">pivot</span></td><td>Cosmic argument &rarr; closing volley of five dictated &ldquo;Say:&rdquo; retorts</td></tr>
+<tr><td class="ref">71:1&ndash;4</td><td><i>-īm/-ūn</i> &rarr; <i>-ārā</i> body</td><td><span class="chip pivot">pivot</span></td><td>Commission scene; the remainder of the surah is Nuh addressing God in sustained <i>-ārā</i></td></tr>
+<tr><td class="ref">71:15&ndash;20</td><td><i>-ārā</i> &rarr; <i>-āqā/-ājā/-āṭā</i> &rarr; <i>-ārā</i></td><td><span class="chip partial">partial</span></td><td>Cosmology aside inside Nuh&rsquo;s speech; only the rhyme consonant relaxes, the ā-frame holds</td></tr>
+<tr><td class="ref">73:12&ndash;13</td><td><i>-īlā</i> &rarr; <i>-īmā</i> &rarr; <i>-īlā</i></td><td><span class="chip partial">partial</span></td><td>Two-verse menace parenthesis (fetters, fire) inside a soothing night-vigil passage</td></tr>
+<tr><td class="ref">76:25&ndash;31</td><td><i>-ūrā</i> &rarr; <i>-īlā</i>, final <i>-īmā</i></td><td><span class="chip pivot">pivot</span></td><td>Paradise tableau &rarr; direct coda to the Prophet; last doctrine couplet takes its own <i>-m</i> seal</td></tr>
+<tr><td class="ref">82:1&ndash;5</td><td><i>-arat</i> cascade &rarr; <i>-ak</i> &rarr; <i>-īn</i></td><td><span class="chip pivot">pivot</span></td><td>Cosmic collapse &rarr; sudden intimate second person: &ldquo;O man, what deluded you?&rdquo;</td></tr>
+</table></div>
+
+<h3>Four mechanisms, not one</h3>
+<div class="mech"><b>Oath-prologue handoff.</b> Opening oath sequences carry their own rare sound (consonant-final, onomatopoeic) and snap to the body rhyme at the exact verse the argument begins (37, 51, 52, 56).</div>
+<div class="mech"><b>Coda shift.</b> A surah&rsquo;s finale takes a heightened ending-sound of its own &mdash; intensive divine names, singular adjectives, a closing credo (2:285, 3:189&ndash;199, 41:44&ndash;54, 76:25&ndash;31).</div>
+<div class="mech"><b>Audible addressee.</b> Where the rhyme is a pronoun suffix, a change of who is being spoken to is a change of sound (47:35&ndash;38; 82:6&ndash;8).</div>
+<div class="mech"><b>Sound-brackets.</b> Doctrinal interjections, lyric interludes, and threat-parentheses inside a running mode are fenced by a temporary rhyme, which releases when the frame resumes (19:34&ndash;40, 24:36&ndash;45, 73:12&ndash;13).</div>
+
+<div class="caveat"><b>Honest limits.</b> The implication is one-directional: a sustained sound-break reliably marks a seam, but most seams (especially in Medinan legal surahs) occur <em>without</em> sound-breaks &mdash; rhyme-break &rArr; pivot, not pivot &rArr; rhyme-break. A minority of shifts are partly grammar-driven (accusative <i>-ā</i> endings in 35:39&ndash;45). And the adjudicators, though instructed to be skeptical and free to return &ldquo;no,&rdquo; knew the hypothesis; a blinded design would be stronger.</div>
+
+<h2><span class="no">III</span>Refrain census: every verse the book repeats verbatim</h2>
+<p>275 verses share their full text with at least one other verse. Those repeated three or more times form the book&rsquo;s refrain system &mdash; and each refrain is welded to one rhetorical engine:</p>
+<div class="tablebox"><table>
+<tr><th>&times;</th><th>Refrain</th><th>Where</th><th>Function</th></tr>
+<tr><td class="num">31</td><td class="ar">فَبِأَيِّ آلَاءِ رَبِّكُمَا تُكَذِّبَانِ</td><td class="ref">S55 throughout</td><td>&ldquo;Which of your Lord&rsquo;s favors will you two deny?&rdquo; &mdash; interrogation after every named blessing</td></tr>
+<tr><td class="num">11</td><td class="ar">وَيْلٌ يَوْمَئِذٍ لِّلْمُكَذِّبِينَ</td><td class="ref">S77 &times;10, S83 &times;1</td><td>&ldquo;Woe that Day to the deniers&rdquo; &mdash; tolling after each judgment scene; one echo in S83</td></tr>
+<tr><td class="num">8</td><td class="ar">وَإِنَّ رَبَّكَ لَهُوَ الْعَزِيزُ الرَّحِيمُ</td><td class="ref">S26 &times;8</td><td>&ldquo;Your Lord is the Mighty, the Merciful&rdquo; &mdash; closes each of seven prophet episodes</td></tr>
+<tr><td class="num">8</td><td class="ar">فَاتَّقُوا اللَّهَ وَأَطِيعُونِ</td><td class="ref">S26 &times;8</td><td>Every prophet&rsquo;s identical appeal &mdash; part of S26&rsquo;s interlocking four-refrain chorus</td></tr>
+<tr><td class="num">6</td><td class="ar">وَيَقُولُونَ مَتَىٰ هَـٰذَا الْوَعْدُ&hellip;</td><td class="ref">6 surahs</td><td>The skeptics&rsquo; taunt &ldquo;when is this promise?&rdquo; quoted verbatim across six surahs</td></tr>
+<tr><td class="num">4</td><td class="ar">وَلَقَدْ يَسَّرْنَا الْقُرْآنَ لِلذِّكْرِ فَهَلْ مِن مُّدَّكِرٍ</td><td class="ref">S54:17,22,32,40</td><td>&ldquo;We eased the Qur&rsquo;an for remembrance &mdash; is there any who will remember?&rdquo; after each destruction narrative</td></tr>
+<tr><td class="num">4</td><td class="ar">إِلَّا عِبَادَ اللَّهِ الْمُخْلَصِينَ</td><td class="ref">S37 &times;4</td><td>The exception clause &mdash; &ldquo;except God&rsquo;s sincere servants&rdquo; &mdash; recurring escape valve</td></tr>
+<tr><td class="num">3</td><td class="ar">فَكَيْفَ كَانَ عَذَابِي وَنُذُرِ</td><td class="ref">S54 &times;3</td><td>&ldquo;How were My punishment and My warnings?&rdquo; &mdash; paired with S54&rsquo;s reminder refrain</td></tr>
+</table></div>
+<p>Two design facts stand out. Refrains are <em>overwhelmingly surah-local</em> &mdash; each belongs to one surah&rsquo;s architecture (the S83 echo of S77&rsquo;s woe-refrain is the notable exception). And Surah 26 runs a four-refrain <em>interlocking chorus</em> (episode-opener, appeal, no-wage disclaimer, double closer) across seven prophet episodes &mdash; a fixed liturgical form with exactly one variable slot, which is where each nation&rsquo;s specific sin goes.</p>
+
+<h2><span class="no">IV</span>Formula census: phrases the whole book shares</h2>
+<p>Distinct from refrains: long word-sequences recurring across <em>different</em> surahs &mdash; the book&rsquo;s load-bearing formulas.</p>
+<div class="tablebox"><table>
+<tr><th>&times;</th><th>Formula</th><th>Spread</th></tr>
+<tr><td class="num">8</td><td class="ar">يَا قَوْمِ اعْبُدُوا اللَّهَ مَا لَكُم مِّنْ إِلَـٰهٍ غَيْرُهُ</td><td>3 surahs &mdash; every prophet&rsquo;s identical opening call: &ldquo;O my people, worship God; you have no god but He&rdquo;</td></tr>
+<tr><td class="num">6</td><td class="ar">يَسِيرُوا فِي الْأَرْضِ فَيَنظُرُوا كَيْفَ كَانَ عَاقِبَةُ الَّذِينَ&hellip;</td><td>5 surahs &mdash; the empirical imperative: &ldquo;travel the earth and observe the end of those before&rdquo;</td></tr>
+<tr><td class="num">5</td><td class="ar">جَنَّاتٍ تَجْرِي مِن تَحْتِهَا الْأَنْهَارُ خَالِدِينَ فِيهَا أَبَدًا</td><td>4 surahs &mdash; the fixed paradise formula: gardens, rivers, permanence</td></tr>
+<tr><td class="num">4</td><td class="ar">وَإِذْ قُلْنَا لِلْمَلَائِكَةِ اسْجُدُوا لِآدَمَ فَسَجَدُوا إِلَّا إِبْلِيسَ</td><td>4 surahs &mdash; the Adam-prostration scene retold from one verbal template</td></tr>
+<tr><td class="num">4</td><td class="ar">يُولِجُ اللَّيْلَ فِي النَّهَارِ وَيُولِجُ النَّهَارَ فِي اللَّيْلِ</td><td>4 surahs &mdash; &ldquo;He merges night into day and day into night&rdquo;</td></tr>
+</table></div>
+<p>The pattern that matters: <em>refrains are local, formulas are global.</em> Within a surah, exact repetition is a deliberate architectural device; across surahs, shared material is almost never copied whole &mdash; it is re-inflected each time (275 exact duplicates out of 6,236 verses is a small fraction, and the retold narratives &mdash; Musa three ways in Surahs 26&ndash;28 &mdash; barely reuse sentences). Orbit, not echo, holds at the corpus scale.</p>
+
+<h2><span class="no">V</span>A negative result, reported as one</h2>
+<p>The claimed <em>ring composition</em> of al-Baqara (its 286 verses said to mirror around the center, near 2:143 &ldquo;a middle nation&rdquo;) was tested lexically: similarity of mirror-pair verses (i vs. N+1&minus;i, stopwords removed) against 30 shuffled baselines. Result: <b>0.0087 vs. 0.0082 &plusmn; 0.0016 &mdash; no signal.</b> If al-Baqara&rsquo;s ring structure is real, it lives at the level of theme and pericope, not shared vocabulary; this test cannot confirm it and does not refute the thematic claim. It is recorded here so the atlas contains what was looked for and not found, not only what was found.</p>
+
+<h2><span class="no">VI</span>What the atlas adds up to</h2>
+<p>The sound-layer of this text is not decoration on top of the message; it is a second channel carrying the same structure. Surahs hold acoustic signatures with near-total discipline, and every sustained departure examined turned out to be doing work: fencing a doctrinal verdict, sealing a coda, switching the addressee, bracketing an aside. A listener who understood no Arabic would still <em>hear</em> the seams of the argument. For a text composed orally across two decades and fixed without revision, that is the finding: the form knows what the content is doing, everywhere we checked.</p>
+
+<footer>
+Source: Tanzil Quran Text (Simple, v1.1) &mdash; 6,236 verses, verified complete against canonical counts. Method: pausal rhyme-key extraction with acoustic family merging; block-shift detection (&ge;2 consecutive deviant verses, &ge;55% surah discipline); adjudication by context reading, skepticism instructed. Refrains: exact full-verse duplicates &ge;3&times;. Formulas: 8-grams across &ge;3 surahs, deduped. Ring test: mirror-pair Jaccard vs. 30 shuffles.
+</footer>
+</div>
+
+</body>
+</html>
